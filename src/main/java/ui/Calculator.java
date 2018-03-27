@@ -1,17 +1,18 @@
 package ui;
 
-import engine.Operation;
+import engine.CalcLogic;
+import engine.Calculation;
+import engine.CalculationElementsExtractor;
+import engine.CalculationTranslator;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator extends JFrame {
-    private static final Pattern CALC_PATTERN = Pattern.compile("(\\d+)|[-*\\+/]");
 
     private JButton num9Button;
     private JButton num7Button;
@@ -33,7 +34,10 @@ public class Calculator extends JFrame {
     private JButton commaButton;
     private JButton clearButton;
     private JLabel infoLabel;
+    private CalculationElementsExtractor extractor = new CalculationElementsExtractor();
 
+    private CalculationTranslator translator = new CalculationTranslator();
+    CalcLogic logic = new CalcLogic();
 
     Calculator() {
         setContentPane(mainPanel);
@@ -173,36 +177,11 @@ public class Calculator extends JFrame {
         System.out.println(text);
 
 
-        List<String> userInput = new LinkedList<>();
-        Matcher m = CALC_PATTERN.matcher(text);
+        List<String> userInput = extractor.extract(text);
 
-        while (m.find()) {
-            userInput.add(m.group());
-        }
-        final Calculation calculation = new Calculation();
-        calculation.setNumber1(Integer.parseInt(userInput.get(0)));
-        System.out.println(calculation.getNumber1());
-        calculation.setNumber2(Integer.parseInt(userInput.get(2)));
-        System.out.println(calculation.getNumber2());
-        calculation.setOperation(userInput.get(1));
-        System.out.println(calculation.getOperation());
+        final Calculation calculation = translator.translate(userInput);
 
-
-        if (calculation.getOperation().equals("/")) {
-            Operation op = Operation.DIVIDE;
-            System.out.println(op);
-        } else if (calculation.getOperation().equals("+")) {
-            Operation op = Operation.PLUS;
-            System.out.println(op);
-        } else if (calculation.getOperation().equals("-")) {
-            Operation op = Operation.MINUS;
-            System.out.println(op);
-        } else if (calculation.getOperation().equals("*")) {
-            Operation op = Operation.MULTIPLY;
-            System.out.println(op);
-        }
-
-        return 440;
+        return logic.calculate(calculation);
     }
 
 

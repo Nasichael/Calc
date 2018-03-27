@@ -7,7 +7,7 @@ public class CalcLogic {
 
     public static final String THE_SECOND_NUMBER_CAN_NOT_BE_ZERO = "The second number can not be zero";
 
-    double calculate(int number1, int number2, Operation operation) {
+    public double calculate(int number1, int number2, Operation operation) {
 
         if (operation == PLUS) {
             return (number1 + number2);
@@ -24,6 +24,10 @@ public class CalcLogic {
             }
         }
         throw new IllegalStateException("No such an operation");
+    }
+//TODO implement
+    public double calculate(Calculation calculation) {
+        return 0;
     }
 }
 
