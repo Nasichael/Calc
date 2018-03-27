@@ -1,6 +1,5 @@
 package ui;
 
-import engine.CalcLogic;
 import engine.Operation;
 
 import javax.swing.*;
@@ -11,9 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static engine.Operation.PLUS;
-
 public class Calculator extends JFrame {
+    private static final Pattern CALC_PATTERN = Pattern.compile("(\\d+)|[-*\\+/]");
+
     private JButton num9Button;
     private JButton num7Button;
     private JButton num3Button;
@@ -166,33 +165,6 @@ public class Calculator extends JFrame {
         setResizable(false);
     }
 
-    String operation = "";
-    int number1;
-    int number2;
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public int getNumber1() {
-        return number1;
-    }
-
-    public void setNumber1(int number1) {
-        this.number1 = number1;
-    }
-
-    public int getNumber2() {
-        return number2;
-    }
-
-    public void setNumber2(int number2) {
-        this.number2 = number2;
-    }
 
 
     private double calculateresult() {
@@ -200,39 +172,32 @@ public class Calculator extends JFrame {
         final String text = displayTextField.getText();
         System.out.println(text);
 
-        String regex = "(\\d+){1}([-*\\+/]){1}(\\d+){1}";
 
-        List<String> userInput = new LinkedList();
+        List<String> userInput = new LinkedList<>();
+        Matcher m = CALC_PATTERN.matcher(text);
 
-        if (text.matches(regex) == true) {
-
-            String regexNew = "(\\d+)|[-*\\+/]";
-            Matcher m = Pattern.compile(regexNew).matcher(text);
-
-            while (m.find()) {
-                userInput.add(m.group());
-            }
-            number1 = Integer.parseInt(userInput.get(0));
-            System.out.println(number1);
-            number2 = Integer.parseInt(userInput.get(2));
-            System.out.println(number2);
-            operation = userInput.get(1);
-            System.out.println(operation);
-        } else {
-            System.out.println("Illegal operation");
+        while (m.find()) {
+            userInput.add(m.group());
         }
+        final Calculation calculation = new Calculation();
+        calculation.setNumber1(Integer.parseInt(userInput.get(0)));
+        System.out.println(calculation.getNumber1());
+        calculation.setNumber2(Integer.parseInt(userInput.get(2)));
+        System.out.println(calculation.getNumber2());
+        calculation.setOperation(userInput.get(1));
+        System.out.println(calculation.getOperation());
 
 
-        if (operation.equals("/")) {
+        if (calculation.getOperation().equals("/")) {
             Operation op = Operation.DIVIDE;
             System.out.println(op);
-        } else if (operation.equals("+")) {
+        } else if (calculation.getOperation().equals("+")) {
             Operation op = Operation.PLUS;
             System.out.println(op);
-        } else if (operation.equals("-")) {
+        } else if (calculation.getOperation().equals("-")) {
             Operation op = Operation.MINUS;
             System.out.println(op);
-        } else if (operation.equals("*")) {
+        } else if (calculation.getOperation().equals("*")) {
             Operation op = Operation.MULTIPLY;
             System.out.println(op);
         }
@@ -251,10 +216,6 @@ public class Calculator extends JFrame {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         calculator.validateActions();
-
-
-
-
 
 
     }
