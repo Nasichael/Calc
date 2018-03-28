@@ -172,7 +172,6 @@ public class Calculator extends JFrame {
     private double calculateResult() {
 
         final String text = displayTextField.getText();
-        System.out.println(text);
 
         List<String> userInput = extractor.extract(text);
         final Calculation calculation = translator.translate(userInput);
@@ -183,14 +182,12 @@ public class Calculator extends JFrame {
         Pattern p = Pattern.compile("(\\d+[-+/*]\\d+)+");
         final String text = displayTextField.getText();
         Matcher m = p.matcher(text);
-        System.out.println(m.matches());
         return m.matches();
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         calculator.validateActions();
-        System.out.println(calculator.validateActions());
 
     }
 }
