@@ -6,29 +6,29 @@ public class CalculationTranslator {
 
     public Calculation translate(List<String> userInput) {
 
-        final Calculation calculation = new Calculation();
+        //final Calculation calculation = new Calculation();
 
-        calculation.setNumber1(Integer.parseInt(userInput.get(0)));
-        System.out.println(calculation.getNumber1());
-        calculation.setNumber2(Integer.parseInt(userInput.get(2)));
-        System.out.println(calculation.getNumber2());
-        calculation.setOperation(userInput.get(1));
-        System.out.println(calculation.getOperation());
+        final int number1 = Integer.parseInt(userInput.get(0));
+        final int number2 = Integer.parseInt(userInput.get(2));
+        final String operationString = userInput.get(1);
 
+        Operation op = null;
 
-        if (calculation.getOperation().equals("/")) {
-            Operation op = Operation.DIVIDE;
+        if (operationString.equals("/")) {
+            op = Operation.DIVIDE;
+
+        } else if (operationString.equals("+")) {
+            op = Operation.PLUS;
             System.out.println(op);
-        } else if (calculation.getOperation().equals("+")) {
-            Operation op = Operation.PLUS;
+        } else if (operationString.equals("-")) {
+            op = Operation.MINUS;
             System.out.println(op);
-        } else if (calculation.getOperation().equals("-")) {
-            Operation op = Operation.MINUS;
-            System.out.println(op);
-        } else if (calculation.getOperation().equals("*")) {
-            Operation op = Operation.MULTIPLY;
+        } else if (operationString.equals("*")) {
+            op = Operation.MULTIPLY;
             System.out.println(op);
         }
+        // calculation.setOperation(op);
+        final Calculation calculation = new Calculation(op, number1, number2);
 
         return calculation;
     }

@@ -25,9 +25,10 @@ public class CalcLogic {
         }
         throw new IllegalStateException("No such an operation");
     }
-//TODO implement
+
+    //TODO implement
     public double calculate(Calculation calculation) {
-        return 0;
+        return calculate(calculation.getNumber1(), calculation.getNumber2(), calculation.getOperation());
     }
 }
 

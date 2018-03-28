@@ -3,18 +3,24 @@ package engine;
 import java.io.Serializable;
 
 public class Calculation implements Serializable {
-    private String operation = "";
+    private Operation operation;
     private int number1;
     private int number2;
 
     public Calculation() {
     }
 
-    public String getOperation() {
+    public Calculation(Operation operation, int number1, int number2) {
+        this.operation = operation;
+        this.number1 = number1;
+        this.number2 = number2;
+    }
+
+    public Operation getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
 
