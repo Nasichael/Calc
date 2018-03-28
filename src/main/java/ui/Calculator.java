@@ -34,8 +34,8 @@ public class Calculator extends JFrame {
     private JButton commaButton;
     private JButton clearButton;
     private JLabel infoLabel;
-    private CalculationElementsExtractor extractor = new CalculationElementsExtractor();
 
+    private CalculationElementsExtractor extractor = new CalculationElementsExtractor();
     private CalculationTranslator translator = new CalculationTranslator();
     CalcLogic logic = new CalcLogic();
 
@@ -169,18 +169,13 @@ public class Calculator extends JFrame {
         setResizable(false);
     }
 
-
-
     private double calculateresult() {
 
         final String text = displayTextField.getText();
-        System.out.println(text);
-
-
         List<String> userInput = extractor.extract(text);
-
         final Calculation calculation = translator.translate(userInput);
 
+        System.out.println(text);
         return logic.calculate(calculation);
     }
 

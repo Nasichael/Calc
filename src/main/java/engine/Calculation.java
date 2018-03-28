@@ -10,6 +10,35 @@ public class Calculation implements Serializable {
     public Calculation() {
     }
 
+    @Override
+    public String toString() {
+        return "Calculation{" +
+                "operation=" + operation +
+                ", number1=" + number1 +
+                ", number2=" + number2 +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Calculation that = (Calculation) o;
+
+        if (getNumber1() != that.getNumber1()) return false;
+        if (getNumber2() != that.getNumber2()) return false;
+        return getOperation() == that.getOperation();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getOperation() != null ? getOperation().hashCode() : 0;
+        result = 31 * result + getNumber1();
+        result = 31 * result + getNumber2();
+        return result;
+    }
+
     public Calculation(Operation operation, int number1, int number2) {
         this.operation = operation;
         this.number1 = number1;
