@@ -19,7 +19,6 @@ public class CalcLogic {
             if (number2 != 0) {
                 return ((double) number1 / (double) number2);
             } else {
-                // System.out.println("Forbiden operation! ");
                 throw new CalculateException(THE_SECOND_NUMBER_CAN_NOT_BE_ZERO);
             }
         }

@@ -12,7 +12,6 @@ public class CalculationElementsExtractor {
     public static List<String> extract(String text) {
         List<String> userInput = new LinkedList<>();
         Matcher m = CALC_PATTERN.matcher(text);
-        System.out.println(userInput);
 
         while (m.find()) {
             userInput.add(m.group());

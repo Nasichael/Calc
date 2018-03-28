@@ -22,7 +22,7 @@ public class CalculationTranslator {
             op = Operation.MULTIPLY;
         }
 
-        // calculation.setOperation(op);
+
         final Calculation calculation = new Calculation(op, number1, number2);
         return calculation;
     }

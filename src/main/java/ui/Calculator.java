@@ -39,7 +39,7 @@ public class Calculator extends JFrame {
     private CalculationTranslator translator = new CalculationTranslator();
     CalcLogic logic = new CalcLogic();
 
-    Calculator() {
+    public Calculator() {
         setContentPane(mainPanel);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
@@ -158,7 +158,7 @@ public class Calculator extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (validateActions()) {
-                    final double calculateresult = calculateresult();
+                    final double calculateresult = calculateResult();
                     displayTextField.setText(calculateresult + "");
                 } else {
                     infoLabel.setText("your expression is not valid");
@@ -169,30 +169,28 @@ public class Calculator extends JFrame {
         setResizable(false);
     }
 
-    private double calculateresult() {
+    private double calculateResult() {
 
         final String text = displayTextField.getText();
+        System.out.println(text);
+
         List<String> userInput = extractor.extract(text);
         final Calculation calculation = translator.translate(userInput);
-
-        System.out.println(text);
         return logic.calculate(calculation);
     }
 
-
-    private boolean validateActions() {
+    public boolean validateActions() {
         Pattern p = Pattern.compile("(\\d+[-+/*]\\d+)+");
         final String text = displayTextField.getText();
         Matcher m = p.matcher(text);
+        System.out.println(m.matches());
         return m.matches();
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         calculator.validateActions();
-
+        System.out.println(calculator.validateActions());
 
     }
-
-
 }

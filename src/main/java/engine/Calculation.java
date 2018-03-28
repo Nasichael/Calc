@@ -10,6 +10,12 @@ public class Calculation implements Serializable {
     public Calculation() {
     }
 
+    public Calculation(Operation operation, int number1, int number2) {
+        this.operation = operation;
+        this.number1 = number1;
+        this.number2 = number2;
+    }
+
     @Override
     public String toString() {
         return "Calculation{" +
@@ -37,12 +43,6 @@ public class Calculation implements Serializable {
         result = 31 * result + getNumber1();
         result = 31 * result + getNumber2();
         return result;
-    }
-
-    public Calculation(Operation operation, int number1, int number2) {
-        this.operation = operation;
-        this.number1 = number1;
-        this.number2 = number2;
     }
 
     public Operation getOperation() {
