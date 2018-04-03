@@ -41,7 +41,6 @@ class CalculationElementsExtractorTest {
         final List<String> expectedList = new LinkedList<>(Arrays.asList("5","*","20"));
 
         //then
-
         assertEquals(expectedList, result);
     }
 }
