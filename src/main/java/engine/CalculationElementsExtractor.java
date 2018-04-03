@@ -9,7 +9,7 @@ public class CalculationElementsExtractor {
 
     private static final Pattern CALC_PATTERN = Pattern.compile("(\\d+)|[-*\\+/]");
 
-    public static List<String> extract(String text) {
+    public List<String> extract(String text) {
         List<String> userInput = new LinkedList<>();
         Matcher m = CALC_PATTERN.matcher(text);
 

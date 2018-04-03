@@ -1,5 +1,7 @@
 package engine;
 
 public enum Operation {
-    PLUS,MINUS,DIVIDE,MULTIPLY
+    PLUS,MINUS,DIVIDE,MULTIPLY;
+
+    int a=3;
 }

@@ -20,10 +20,10 @@ public class CalculationTranslatorTest {
         List<String> toTranslate = new LinkedList<>(Arrays.asList("5", "+", "2"));
 
         //when
-        Calculation expectedCalculation = new Calculation(PLUS, 5, 2);
         Calculation testCalculation = translator.translate(toTranslate);
 
         //then
+        Calculation expectedCalculation = new Calculation(PLUS, 5, 2);
         assertEquals(expectedCalculation, testCalculation);
     }
 
@@ -34,10 +34,10 @@ public class CalculationTranslatorTest {
         List<String> toTranslate = new LinkedList<>(Arrays.asList("7", "*", "3"));
 
         //when
-        Calculation expectedCalculation = new Calculation(MULTIPLY, 7, 3);
         Calculation testCalculation = translator.translate(toTranslate);
 
         //then
+        Calculation expectedCalculation = new Calculation(MULTIPLY, 7, 3);
         assertEquals(expectedCalculation, testCalculation);
     }
 }

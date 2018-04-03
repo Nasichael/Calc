@@ -8,7 +8,10 @@ import engine.CalculationTranslator;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +38,21 @@ public class Calculator extends JFrame {
     private JButton clearButton;
     private JLabel infoLabel;
 
+    private Map<JButton, String> buttonTexts = new HashMap<>();
+
+    private void initButtonText() {
+        buttonTexts.put(plusButton, "+");
+        buttonTexts.put(num2Button, "2");
+        /*buttonTexts.put(plusButton,"+");
+        buttonTexts.put(plusButton,"+");
+        buttonTexts.put(plusButton,"+");
+        buttonTexts.put(plusButton,"+");
+        buttonTexts.put(plusButton,"+");
+        buttonTexts.put(plusButton,"+");
+        */
+
+    }
+
     private CalculationElementsExtractor extractor = new CalculationElementsExtractor();
     private CalculationTranslator translator = new CalculationTranslator();
     CalcLogic logic = new CalcLogic();
@@ -44,10 +62,33 @@ public class Calculator extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+
+      this.initButtonText();
+
+        /*for (JButton jButton : buttonTexts.keySet()) {
+            final String text = buttonTexts.get(jButton);
+
+        }*/
+
+        final BiConsumer<JButton, String> jButtonStringBiConsumer = (button, text) -> {
+          /*  button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    displayTextField.setText(displayTextField.getText() + text);
+                    infoLabel.setText("");
+                }
+            });*/
+
+        };
+
+
+        buttonTexts.forEach(jButtonStringBiConsumer);
+
+
         clearButton.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {//bindowanie
                 final String text = displayTextField.getText();
                 if (!text.isEmpty()) {
                     displayTextField.setText(text.substring(0, text.length() - 1));
@@ -69,12 +110,6 @@ public class Calculator extends JFrame {
             }
         });
 
-        num2Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 2);
-            }
-        });
 
         num3Button.addMouseListener(new MouseAdapter() {
             @Override
@@ -94,6 +129,7 @@ public class Calculator extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 displayTextField.setText(displayTextField.getText() + 5);
+                infoLabel.setText("");
             }
         });
 
@@ -125,12 +161,6 @@ public class Calculator extends JFrame {
             }
         });
 
-        plusButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + "+");
-            }
-        });
 
         minusButton.addMouseListener(new MouseAdapter() {
             @Override
