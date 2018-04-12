@@ -2,7 +2,8 @@ package engine;
 
 import org.junit.jupiter.api.Test;
 import engine.Operation;
-import static engine.CalcLogic.THE_SECOND_NUMBER_CAN_NOT_BE_ZERO;
+
+import static engine.Operation.Constants.THE_SECOND_NUMBER_CAN_NOT_BE_ZERO;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalcLogicTest {

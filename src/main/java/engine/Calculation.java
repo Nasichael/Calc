@@ -2,7 +2,7 @@ package engine;
 
 import java.io.Serializable;
 
-public class Calculation implements Serializable {
+public class Calculation {
     private Operation operation;
     private int number1;
     private int number2;

@@ -1,16 +1,16 @@
 package ui;
 
+
 import engine.CalcLogic;
 import engine.Calculation;
 import engine.CalculationElementsExtractor;
 import engine.CalculationTranslator;
+import ui.validation.Validator;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,15 +42,19 @@ public class Calculator extends JFrame {
 
     private void initButtonText() {
         buttonTexts.put(plusButton, "+");
+        buttonTexts.put(minusButton, "-");
+        buttonTexts.put(multiplyButton, "*");
+        buttonTexts.put(divideButton, "/");
+        buttonTexts.put(num1Button, "1");
         buttonTexts.put(num2Button, "2");
-        /*buttonTexts.put(plusButton,"+");
-        buttonTexts.put(plusButton,"+");
-        buttonTexts.put(plusButton,"+");
-        buttonTexts.put(plusButton,"+");
-        buttonTexts.put(plusButton,"+");
-        buttonTexts.put(plusButton,"+");
-        */
-
+        buttonTexts.put(num3Button, "3");
+        buttonTexts.put(num4Button, "4");
+        buttonTexts.put(num5Button, "5");
+        buttonTexts.put(num6Button, "6");
+        buttonTexts.put(num7Button, "7");
+        buttonTexts.put(num8Button, "8");
+        buttonTexts.put(num9Button, "9");
+        buttonTexts.put(num0Button, "0");
     }
 
     private CalculationElementsExtractor extractor = new CalculationElementsExtractor();
@@ -62,28 +66,19 @@ public class Calculator extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
-
-      this.initButtonText();
-
-        /*for (JButton jButton : buttonTexts.keySet()) {
-            final String text = buttonTexts.get(jButton);
-
-        }*/
+        this.initButtonText();
 
         final BiConsumer<JButton, String> jButtonStringBiConsumer = (button, text) -> {
-          /*  button.addMouseListener(new MouseAdapter() {
+            button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     displayTextField.setText(displayTextField.getText() + text);
                     infoLabel.setText("");
                 }
-            });*/
-
+            });
         };
 
-
         buttonTexts.forEach(jButtonStringBiConsumer);
-
 
         clearButton.addMouseListener(new MouseAdapter() {
 
@@ -93,93 +88,6 @@ public class Calculator extends JFrame {
                 if (!text.isEmpty()) {
                     displayTextField.setText(text.substring(0, text.length() - 1));
                 }
-            }
-        });
-
-        num0Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 0);
-            }
-        });
-
-        num1Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 1);
-            }
-        });
-
-
-        num3Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 3);
-            }
-        });
-
-        num4Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 4);
-            }
-        });
-
-        num5Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 5);
-                infoLabel.setText("");
-            }
-        });
-
-        num6Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 6);
-            }
-        });
-
-        num7Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 7);
-            }
-        });
-
-        num8Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 8);
-            }
-        });
-
-        num9Button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + 9);
-            }
-        });
-
-
-        minusButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + "-");
-            }
-        });
-
-        multiplyButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + "*");
-            }
-        });
-
-        divideButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                displayTextField.setText(displayTextField.getText() + "/");
             }
         });
 
@@ -199,25 +107,41 @@ public class Calculator extends JFrame {
         setResizable(false);
     }
 
+    Set<Validator> validadorSet = new HashSet<>();
+
+    private final Validator notDivideByZeroValidator = new NotDivideByZeroValidator();
+
+    private final Validator correctMathEquationValidator = new CorrectMathEquationValidator();
+
+    {
+        validadorSet.add(notDivideByZeroValidator);
+        validadorSet.add(correctMathEquationValidator);
+    }
     private double calculateResult() {
 
         final String text = displayTextField.getText();
-
         List<String> userInput = extractor.extract(text);
         final Calculation calculation = translator.translate(userInput);
         return logic.calculate(calculation);
     }
 
-    public boolean validateActions() {
-        Pattern p = Pattern.compile("(\\d+[-+/*]\\d+)+");
+    private boolean validateActions() {
         final String text = displayTextField.getText();
+
+
+        for (Validator validator : validadorSet) {
+            if (!validator.checkInput(text)) {
+                infoLabel.setText(validator.getErrorMessage());
+            }
+        }
+
+        Pattern p = Pattern.compile("(\\d+[-+/*]\\d+)+");
         Matcher m = p.matcher(text);
         return m.matches();
     }
 
     public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.validateActions();
+        new Calculator();
 
     }
 }
