@@ -12,8 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Calculator extends JFrame {
 
@@ -98,8 +96,6 @@ public class Calculator extends JFrame {
                 if (validateActions()) {
                     final double calculateresult = calculateResult();
                     displayTextField.setText(calculateresult + "");
-                } else {
-                    infoLabel.setText("your expression is not valid");
                 }
             }
 
@@ -110,13 +106,13 @@ public class Calculator extends JFrame {
     Set<Validator> validadorSet = new HashSet<>();
 
     private final Validator notDivideByZeroValidator = new NotDivideByZeroValidator();
-
     private final Validator correctMathEquationValidator = new CorrectMathEquationValidator();
 
     {
         validadorSet.add(notDivideByZeroValidator);
         validadorSet.add(correctMathEquationValidator);
     }
+
     private double calculateResult() {
 
         final String text = displayTextField.getText();
@@ -128,16 +124,13 @@ public class Calculator extends JFrame {
     private boolean validateActions() {
         final String text = displayTextField.getText();
 
-
         for (Validator validator : validadorSet) {
             if (!validator.checkInput(text)) {
                 infoLabel.setText(validator.getErrorMessage());
+                return false;
             }
         }
-
-        Pattern p = Pattern.compile("(\\d+[-+/*]\\d+)+");
-        Matcher m = p.matcher(text);
-        return m.matches();
+        return true;
     }
 
     public static void main(String[] args) {
